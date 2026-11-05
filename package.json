@@ -5,6 +5,7 @@
   "type": "module",
   "files": [
     "extensions/",
+    "template/",
     "prompts/",
     "skills/",
     "scripts/",

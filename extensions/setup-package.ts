@@ -1,39 +1,36 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { access, readFile } from "node:fs/promises";
-import { join } from "node:path";
+import { cp, readdir } from "node:fs/promises";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
+
+const template = join(dirname(fileURLToPath(import.meta.url)), "..", "template", "cloudflare-full-stack");
+const excluded = new Set(["node_modules", ".git", ".wrangler", ".dev.vars", "dist"]);
 
 export default function setupPackage(pi: ExtensionAPI) {
   pi.registerCommand("setup-package", {
-    description: "Interactively set up the package in the current directory",
+    description: "Create a Cloudflare project in the current directory",
     handler: async (args, ctx) => {
       if (!ctx.hasUI) throw new Error("/setup-package requires an interactive UI");
       if (args.trim()) {
-        ctx.ui.notify("Use /setup-package without arguments; enter the package name when prompted.", "warning");
+        ctx.ui.notify("Use /setup-package without arguments.", "warning");
         return;
       }
       try {
-        await access(join(ctx.cwd, "scripts/setup.ts"));
-        const pkg = JSON.parse(await readFile(join(ctx.cwd, "package.json"), "utf8"));
-        if (typeof pkg.name !== "string" || pkg.scripts?.setup !== "node scripts/setup.ts") throw new Error("not a package starter checkout");
-        const input = await ctx.ui.input("Package name (leave blank to keep current)", pkg.name);
-        if (input === undefined) return;
-        const name = input.trim();
-        if (name && (name.length > 214 || !/^(?:@[a-z0-9][a-z0-9._-]*\/)?[a-z0-9][a-z0-9._-]*$/.test(name))) {
-          ctx.ui.notify("Invalid name. Use a lowercase npm package name such as my-package or @scope/my-package.", "error");
-          return;
-        }
-        const commandArgs = ["run", "setup", ...(name ? ["--name", name] : [])];
-        const confirmed = await ctx.ui.confirm("Run package setup?", `In ${ctx.cwd}, run pnpm ${commandArgs.join(" ")}. This installs dependencies and runs tests.`);
+        const entries = (await readdir(template)).filter(name => !excluded.has(name));
+        const existing = new Set(await readdir(ctx.cwd));
+        const conflicts = entries.filter(name => existing.has(name));
+        if (conflicts.length) throw new Error(`Existing paths would conflict: ${conflicts.join(", ")}. Use an empty directory (a .git directory is allowed).`);
+        const confirmed = await ctx.ui.confirm("Create Cloudflare project?", `Copy the Cloudflare template into ${ctx.cwd}. Existing files will not be overwritten. Dependencies will not be installed.`);
         if (!confirmed) return;
-        ctx.ui.notify("Running package setup; installing dependencies and running tests...", "info");
-        const result = await pi.exec("pnpm", commandArgs, { cwd: ctx.cwd });
-        if (result.code !== 0 || result.killed || result.truncated) {
-          ctx.ui.notify(`Setup failed (exit ${result.code}). Install or tests may not have completed.\n${result.stderr || result.stdout}`, "error");
-          return;
+        for (const entry of entries) {
+          await cp(join(template, entry), join(ctx.cwd, entry), {
+            recursive: true, force: false, errorOnExist: true,
+            filter: source => !excluded.has(source.split(/[\\/]/).pop()!),
+          });
         }
-        ctx.ui.notify("Setup complete: dependencies installed and tests passed.", "info");
+        ctx.ui.notify(`Cloudflare project created in ${ctx.cwd}. Run pnpm run setup there to install dependencies and apply local D1 migrations.`, "info");
       } catch (error) {
-        ctx.ui.notify(`Setup could not run in ${ctx.cwd}: ${error instanceof Error ? error.message : String(error)}. Open the package checkout and try again.`, "error");
+        ctx.ui.notify(`Could not create Cloudflare project in ${ctx.cwd}: ${error instanceof Error ? error.message : String(error)}. Some files may have been copied.`, "error");
       }
     },
   });

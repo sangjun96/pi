@@ -20,7 +20,7 @@ pnpm run setup
 
 The script optionally updates the package name, installs dependencies from the lockfile, and runs tests. It does not install the package into Pi, change Pi configuration, or access credentials. Rerunning without `--name` preserves the current name. Use `--dry-run` to preview, or `--skip-install` / `--skip-tests` to skip individual steps. Setup can access the package registry during dependency installation.
 
-To set up interactively, load this package and use `/setup-package` while Pi's working directory is this checkout. Enter a package name or leave it blank to keep the current name, then confirm the setup. The command runs the script and reports the outcome without using an agent turn.
+To create a Cloudflare project, load this package in Pi from the desired target directory and run `/setup-package`. After confirmation, it copies `template/cloudflare-full-stack/` into that directory without overwriting existing paths. A `.git` directory is allowed. It does not install dependencies; follow the generated README or run `pnpm run setup` in the new project to install dependencies and apply local D1 migrations.
 
 ## Try and customize
 
@@ -30,7 +30,7 @@ pi install ./           # explicitly install it for the current user
 # pi install -l ./      # alternatively install in the current project
 ```
 
-In Pi, the `/setup-package` extension command prompts for a name and confirmation before executing the setup script. Run `/reload` after changing resources. Project-local packages require project trust. Review all package code before installing.
+In Pi, `/setup-package` creates a Cloudflare project in the current working directory after confirmation. Run `/reload` after changing resources. Project-local packages require project trust. Review all package code before installing.
 
 Change `name` and `description` in `package.json` (or use the setup script's `--name`), customize the extensions, and add resources under `skills/` or `prompts/`. The `pi` manifest selects the resources loaded from this package; add entries deliberately when creating new extensions.
 
