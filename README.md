@@ -1,9 +1,8 @@
 # Pi package starter
 
-A reusable starting point for a [Pi package](https://github.com/earendil-works/pi). The default package exposes a small `/hello` extension command and an interactive `/setup-package` extension command. It does not register an MCP server, replace project instructions, or enable a permission gate by default.
+A starting point for a [Pi package](https://github.com/earendil-works/pi). The package enables all current extensions: `/setup-package`, Exa MCP, project-instruction replacement, and a permission gate.
 
 ```text
-extensions/index.ts          # editable /hello extension command
 extensions/setup-package.ts  # interactive /setup-package command
 skills/                      # add skills here
 scripts/setup.ts             # local package setup
@@ -31,16 +30,16 @@ pi install ./           # explicitly install it for the current user
 # pi install -l ./      # alternatively install in the current project
 ```
 
-In Pi, try `/hello` or `/hello Alice`. The `/setup-package` extension command prompts for a name and confirmation before executing the setup script. Run `/reload` after changing resources. Project-local packages require project trust. Review all package code before installing.
+In Pi, the `/setup-package` extension command prompts for a name and confirmation before executing the setup script. Run `/reload` after changing resources. Project-local packages require project trust. Review all package code before installing.
 
-Change `name` and `description` in `package.json` (or use the setup script's `--name`), customize `extensions/index.ts`, and add resources under `skills/` or `prompts/`. The `pi` manifest selects the resources loaded from this package; add entries deliberately when creating new extensions.
+Change `name` and `description` in `package.json` (or use the setup script's `--name`), customize the extensions, and add resources under `skills/` or `prompts/`. The `pi` manifest selects the resources loaded from this package; add entries deliberately when creating new extensions.
 
-## Optional existing extensions
+## Enabled extensions
 
-The previous custom extensions remain in `extensions/` for reference but are **not loaded** by the default manifest:
+The following extensions are enabled in the manifest:
 
-- `agents-md.ts` replaces every discovered `AGENTS.md`/`CLAUDE.md` with this package's `AGENTS.md`. This is intrusive; enable it only if that is intentional.
-- `mcp.ts` registers Exa and its OAuth integration. Review and edit its server configuration before enabling it.
+- `agents-md.ts` replaces every discovered `AGENTS.md`/`CLAUDE.md` with this package's `AGENTS.md`. This applies to every project where the package is loaded.
+- `mcp.ts` registers Exa. Use `/mcp` in a loaded session to inspect its connection and sign in if needed. Shell-level `pi mcp list` does not load extensions.
 - `permission-gate.ts` implements an opinionated regex-based approval gate. Its rules are not a security boundary; inspect the source and tests before opting in.
 
-To enable one, add its exact path to `pi.extensions` in `package.json` and reload Pi. Avoid a broad `extensions/*.ts` glob unless you intend to load all of them. The tests for the optional permission gate remain available via `pnpm test`.
+Each extension is listed directly in the manifest. Run `/reload` after changing the manifest. The permission gate tests are available via `pnpm test`.
