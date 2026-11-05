@@ -1,9 +1,21 @@
 {
   "name": "my-pi-package",
   "version": "0.1.0",
-  "description": "Pi package template with extensions and skills",
+  "description": "Reusable Pi package starter",
   "type": "module",
+  "files": [
+    "extensions/",
+    "prompts/",
+    "skills/",
+    "scripts/",
+    "test/",
+    "AGENTS.md",
+    "pnpm-lock.yaml",
+    "pnpm-workspace.yaml",
+    "vitest.config.ts"
+  ],
   "scripts": {
+    "setup": "node scripts/setup.ts",
     "test": "vitest run"
   },
   "keywords": [
@@ -11,10 +23,13 @@
   ],
   "pi": {
     "extensions": [
-      "./extensions/*.ts"
+      "./extensions/index.ts"
     ],
     "skills": [
       "./skills"
+    ],
+    "prompts": [
+      "./prompts"
     ]
   },
   "peerDependencies": {
@@ -22,6 +37,8 @@
   },
   "devDependencies": {
     "@earendil-works/pi-coding-agent": "*",
+    "@types/node": "^26.6.6",
+    "typescript": "^7.0.2",
     "vitest": "^5.1.0"
   }
 }

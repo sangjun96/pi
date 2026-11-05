@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "target": "es2024", "lib": ["es2024", "dom", "dom.iterable"],
+    "module": "preserve", "moduleResolution": "bundler", "strict": true,
+    "noEmit": true, "jsx": "react-jsx", "allowImportingTsExtensions": true,
+    "isolatedModules": true, "skipLibCheck": true, "types": ["node", "vite/client"],
+    "paths": { "@/*": ["./src/client/*"] }
+  },
+  "include": ["src", "scripts", "tests", "cloudflare.config.ts", "vite.config.ts", "vitest.config.ts", ".cloudflare/types"]
+}

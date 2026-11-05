@@ -1,0 +1,50 @@
+{
+	"name": "cloudflare-full-stack",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"setup": "node scripts/setup.ts",
+		"dev": "cf dev",
+		"build": "cf build",
+		"typecheck": "cf workers types && tsc",
+		"test": "vitest run",
+		"db:generate": "drizzle-kit generate",
+		"db:migrate:local": "tsx scripts/migrate.ts local",
+		"db:migrate:remote": "tsx scripts/migrate.ts remote",
+		"account:create:local": "tsx scripts/create-account.ts local",
+		"account:create:remote": "tsx scripts/create-account.ts remote"
+	},
+	"devDependencies": {
+		"@cloudflare/vite-plugin": "2.0.0-beta.v.11",
+		"@tailwindcss/vite": "^4.3.4",
+		"@types/node": "^26.6.6",
+		"@types/react": "^19.3.0",
+		"@types/react-dom": "^19.3.0",
+		"@vitejs/plugin-react": "^6.2.1",
+		"cf": "1.0.0-beta.27",
+		"drizzle-kit": "^0.31.11",
+		"miniflare": "5.20261103.0-beta",
+		"tailwindcss": "^4.3.4",
+		"tsx": "^4.23.15",
+		"typescript": "^7.0.2",
+		"vite": "^8.3.0",
+		"vitest": "^5.1.0"
+	},
+	"dependencies": {
+		"@google/genai": "^2.32.0",
+		"@tanstack/react-query": "^5.105.3",
+		"better-auth": "^1.7.16",
+		"class-variance-authority": "^0.7.1",
+		"clsx": "^2.1.1",
+		"drizzle-orm": "^0.45.4",
+		"hono": "^4.13.16",
+		"lucide-react": "^1.67.0",
+		"openai": "^7.50.0",
+		"radix-ui": "^1.8.1",
+		"react": "^19.3.1",
+		"react-dom": "^19.3.1",
+		"react-router-dom": "^7.18.5",
+		"tailwind-merge": "^3.7.0",
+		"zod": "^4.6.7"
+	}
+}

@@ -1,3 +1,5 @@
+packages: []
+# Explicitly decline optional transitive dependency build scripts.
 allowBuilds:
   '@google/genai': false
   protobufjs: false
