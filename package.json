@@ -4,7 +4,7 @@
   "description": "Pi package template with extensions and skills",
   "type": "module",
   "scripts": {
-    "test": "node --test test/"
+    "test": "vitest run"
   },
   "keywords": [
     "pi-package"
@@ -21,6 +21,7 @@
     "@earendil-works/pi-coding-agent": "*"
   },
   "devDependencies": {
-    "@earendil-works/pi-coding-agent": "*"
+    "@earendil-works/pi-coding-agent": "*",
+    "vitest": "^5.1.0"
   }
 }
