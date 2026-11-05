@@ -1,0 +1,23 @@
+{
+  "name": "my-pi-package",
+  "version": "0.1.0",
+  "description": "Pi package template with extensions and skills",
+  "type": "module",
+  "keywords": [
+    "pi-package"
+  ],
+  "pi": {
+    "extensions": [
+      "./extensions/*.ts"
+    ],
+    "skills": [
+      "./skills"
+    ]
+  },
+  "peerDependencies": {
+    "@earendil-works/pi-coding-agent": "*"
+  },
+  "devDependencies": {
+    "@earendil-works/pi-coding-agent": "*"
+  }
+}
