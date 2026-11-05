@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "description": "Pi package template with extensions and skills",
   "type": "module",
+  "scripts": {
+    "test": "node --test test/"
+  },
   "keywords": [
     "pi-package"
   ],
