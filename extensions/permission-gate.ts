@@ -40,7 +40,7 @@ const PROTECTED_PATHS: [RegExp, string][] = [
 ];
 
 /** Tools that only read, or whose nested calls go through tool_call themselves. */
-const SAFE_TOOLS = new Set(["read", "grep", "find", "ls", "codemode", "tool_search"]);
+const SAFE_TOOLS = new Set(["read", "grep", "find", "ls", "codemode", "tool_search", "openai_web_search"]);
 
 /** Exa search and page fetch are free to use; starting an agent run costs money, so it asks. */
 const EXA_FREE_TOOLS = new Set(["mcp__exa__web_search_exa", "mcp__exa__web_fetch_exa"]);
