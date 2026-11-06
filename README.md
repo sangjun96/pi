@@ -35,6 +35,12 @@ In Pi, try `/hello` or `/hello Alice`. The `/setup-package` extension command pr
 
 Change `name` and `description` in `package.json` (or use the setup script's `--name`), customize `extensions/index.ts`, and add resources under `skills/` or `prompts/`. The `pi` manifest selects the resources loaded from this package; add entries deliberately when creating new extensions.
 
+## PDF skill
+
+The `pdf` skill uses the `mupdf` runtime dependency to inspect PDFs, extract page text, and render pages to PNG. Invoke it with `/skill:pdf` or ask Pi to work with a PDF. Scanned pages need visual inspection or a separate OCR tool. The script does not overwrite existing output files.
+
+MuPDF.js is available under the AGPL and commercial licenses. Review [Artifex's licensing terms](https://mupdf.com/licensing/) before distributing or deploying this package.
+
 ## Optional existing extensions
 
 The previous custom extensions remain in `extensions/` for reference but are **not loaded** by the default manifest:
