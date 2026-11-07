@@ -55,6 +55,10 @@ test("write/edit: protected or outside paths ask", () => {
 	expect(classify("edit", { path: "credentials.json" }, CWD, undefined).kind).toBe("ask");
 });
 
+test("OpenAI web search does not require approval", () => {
+	expect(classify("openai_web_search", { query: "q" }, CWD, undefined).kind).toBe("allow");
+});
+
 test("exa: search and fetch pass, starting an agent run asks", () => {
 	expect(classify("mcp__exa__web_search_exa", { query: "q" }, CWD, undefined).kind).toBe("allow");
 	expect(classify("mcp__exa__web_fetch_exa", { urls: ["https://x"] }, CWD, undefined).kind).toBe("allow");
