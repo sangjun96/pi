@@ -1,9 +1,9 @@
 # Pi package starter
 
-A starting point for a [Pi package](https://github.com/earendil-works/pi). The package enables all current extensions: `/setup-package`, Exa MCP, project-instruction replacement, and a permission gate.
+A starting point for a [Pi package](https://github.com/earendil-works/pi). The package enables extensions for Exa MCP, project-instruction replacement, web search, and a permission gate.
 
 ```text
-extensions/setup-package.ts  # interactive /setup-package command
+extensions/                  # Pi extensions
 skills/                      # add skills here
 scripts/setup.ts             # local package setup
 AGENTS.md                    # instructions for agents working on this checkout
@@ -20,8 +20,6 @@ pnpm run setup
 
 The script optionally updates the package name, installs dependencies from the lockfile, and runs tests. It does not install the package into Pi, change Pi configuration, or access credentials. Rerunning without `--name` preserves the current name. Use `--dry-run` to preview, or `--skip-install` / `--skip-tests` to skip individual steps. Setup can access the package registry during dependency installation.
 
-To create a Cloudflare project, load this package in Pi from the desired target directory and run `/setup-package`. After confirmation, it copies `template/cloudflare-full-stack/` into that directory without overwriting existing paths. A `.git` directory is allowed. It does not install dependencies; follow the generated README or run `pnpm run setup` in the new project to install dependencies and apply local D1 migrations.
-
 ## Try and customize
 
 ```bash
@@ -30,7 +28,7 @@ pi install ./           # explicitly install it for the current user
 # pi install -l ./      # alternatively install in the current project
 ```
 
-In Pi, `/setup-package` creates a Cloudflare project in the current working directory after confirmation. Run `/reload` after changing resources. Project-local packages require project trust. Review all package code before installing.
+Run `/reload` after changing resources. Project-local packages require project trust. Review all package code before installing.
 
 Change `name` and `description` in `package.json` (or use the setup script's `--name`), customize the extensions, and add resources under `skills/` or `prompts/`. The `pi` manifest selects the resources loaded from this package; add entries deliberately when creating new extensions.
 
