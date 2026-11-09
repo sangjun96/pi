@@ -27,7 +27,8 @@
       "./extensions/mcp.ts",
       "./extensions/permission-gate.ts",
       "./extensions/openai-web-search.ts",
-      "./extensions/stt.ts"
+      "./extensions/stt.ts",
+      "./extensions/grok-media.ts"
     ],
     "skills": [
       "./skills"

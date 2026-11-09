@@ -48,6 +48,14 @@ The `stt.ts` extension records locally with `ffmpeg` and sends the audio to xAI'
 
 Recordings are held in memory, capped at 120 seconds, and sent after stopping. At the limit they are sent automatically. The extension deletes no persistent audio files because it creates none. On macOS the default input is `:0`; list devices with `ffmpeg -f avfoundation -list_devices true -i ""`, then set `PI_STT_AUDIO_DEVICE=:1` (or the desired index) before starting Pi. Linux defaults to PulseAudio `default`, and Windows to DirectShow `audio=Microphone`; the same variable overrides the input. Cmd+R requires a terminal that forwards the Super/Command modifier (typically via the Kitty keyboard protocol); the terminal may reserve it for its own shortcut. Alt/Option+M and `/stt` are alternatives. Dictation requires Pi's interactive TUI and is not realtime streaming.
 
+## Grok image and speech generation
+
+The `grok-media.ts` extension gives the agent two tools: `grok_image` generates one image with `grok-imagine-image-2.0`, and `grok_tts` generates MP3 or WAV speech. Ask Pi, for example, “Generate a 16:9 image of a lighthouse and save it as lighthouse.jpg” or “Read this Korean text aloud and save it as speech.mp3.” Image aspect ratio, resolution and quality, and speech voice, language and speed can be specified in your request. If the returned image format differs from the requested extension, the correct extension is appended. Existing files are never overwritten.
+
+Set up xAI authentication as described in **Grok voice dictation**, then load the package or run `/reload`. The chat model can be any provider. Prompts and text are sent to xAI and **API charges apply**. The included permission gate asks for approval for these external, paid calls; in non-interactive mode it blocks them unless you change the gate configuration. Files are written relative to Pi's working directory unless an absolute path is requested.
+
+Official documentation: [image generation](https://docs.x.ai/developers/model-capabilities/images/generation), [text to speech](https://docs.x.ai/developers/model-capabilities/audio/text-to-speech).
+
 ## Optional existing extensions
 
 The following extensions are enabled in the manifest:
