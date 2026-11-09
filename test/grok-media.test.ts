@@ -33,6 +33,24 @@ test("generates image using base64 API and saves actual image format", async () 
   expect(JSON.parse(options.body)).toMatchObject({ model: "grok-imagine-image-2.0", prompt: "cat", n: 1, response_format: "b64_json", aspect_ratio: "16:9" });
 });
 
+test.each([
+  ["png", Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]), "out.png", "out.png"],
+  ["webp", Buffer.from("RIFF0000WEBP"), "out.jpg", "out.jpg.webp"],
+  ["jpeg", Buffer.from([0xff, 0xd8, 0xff]), "out.JPEG", "out.JPEG"],
+])("recognizes %s image output", async (format, bytes, requested, expected) => {
+  const { cwd, ctx } = await setup();
+  vi.stubGlobal("fetch", vi.fn().mockResolvedValue(new Response(JSON.stringify({ data: [{ b64_json: bytes.toString("base64") }] }))));
+  const result = await tools.grok_image.execute("id", { prompt: "cat", path: requested }, undefined, undefined, ctx);
+  expect(result.details.format).toBe(format);
+  expect(await readFile(join(cwd, expected))).toEqual(bytes);
+});
+
+test("rejects unrecognized image bytes", async () => {
+  const { ctx } = await setup();
+  vi.stubGlobal("fetch", vi.fn().mockResolvedValue(new Response(JSON.stringify({ data: [{ b64_json: Buffer.from("unknown").toString("base64") }] }))));
+  await expect(tools.grok_image.execute("id", { prompt: "cat", path: "cat.jpg" }, undefined, undefined, ctx)).rejects.toThrow("unrecognized image format");
+});
+
 test("TTS sends speech parameters and saves raw bytes", async () => {
   const { cwd, ctx } = await setup();
   const fetchMock = vi.fn().mockResolvedValue(new Response(new Uint8Array([1, 2, 3])));
