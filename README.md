@@ -32,6 +32,10 @@ Run `/reload` after changing resources. Project-local packages require project t
 
 Change `name` and `description` in `package.json` (or use the setup script's `--name`), customize the extensions, and add resources under `skills/` or `prompts/`. The `pi` manifest selects the resources loaded from this package; add entries deliberately when creating new extensions.
 
+## Grill-me skill
+
+Use `/skill:grill-me` to stress-test an idea or plan through rounds of questions before implementation. The skill is self-contained and runs only when explicitly invoked.
+
 ## PDF skill
 
 The `pdf` skill uses the `mupdf` runtime dependency to inspect PDFs, extract page text, and render pages to PNG. Invoke it with `/skill:pdf` or ask Pi to work with a PDF. Scanned pages need visual inspection or a separate OCR tool. The script does not overwrite existing output files.
