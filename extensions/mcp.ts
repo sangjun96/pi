@@ -8,11 +8,11 @@ import type { ExtensionAPI, McpServerConfig } from "@earendil-works/pi-coding-ag
  * The `pi mcp` shell commands do not load extensions, so they don't list these servers.
  */
 export const MCP_SERVERS: Record<string, McpServerConfig> = {
-	// exa: {
-	// 	url: "https://mcp.exa.ai/mcp?login",
-	// 	exposure: "direct",
-	// 	description: "Web search and clean page fetch via Exa",
-	// },
+	exa: {
+		url: "https://mcp.exa.ai/mcp?login",
+		exposure: "direct",
+		description: "Web search and clean page fetch via Exa",
+	},
 };
 
 export default function (pi: ExtensionAPI) {
