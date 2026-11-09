@@ -38,6 +38,16 @@ The `pdf` skill uses the `mupdf` runtime dependency to inspect PDFs, extract pag
 
 MuPDF.js is available under the AGPL and commercial licenses. Review [Artifex's licensing terms](https://mupdf.com/licensing/) before distributing or deploying this package.
 
+## Grok voice dictation
+
+The `stt.ts` extension records locally with `ffmpeg` and sends the audio to xAI's `grok-voice-transcribe-2.0` API. It inserts the transcript at the current editor cursor for review; it never submits it automatically. Audio leaves your machine and xAI API charges apply. The Pi chat model can be any provider.
+
+1. Run `/stt`: if `ffmpeg` is missing on macOS, the extension offers to install it with Homebrew. Homebrew must already be installed and on Pi's PATH. On other systems, install `ffmpeg` manually. Grant your terminal microphone access when prompted.
+2. Create an xAI API key. In Pi, run `/login xai` and choose API key; Pi stores it in its user-level `auth.json`. The extension resolves the xAI provider credential through Pi on macOS, Windows, and Linux. Alternatively set `XAI_API_KEY` before starting Pi. Pi's normal credential precedence applies: a stored credential takes precedence over the environment variable. Use `/logout` to remove the stored xAI credential (this also logs out xAI chat models). `auth.json` contains sensitive credentials in plain text, not an encrypted vault: protect your user account and the file, and never share or commit it. Pi also supports external secret-manager commands; see [Pi provider credentials](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/docs/providers.md).
+3. Load the package (`pi -e .`) or run `/reload` if already installed. Press **Cmd+R** to start, then again to stop. **Option+M** (Alt+M) is also available as a fallback. `/stt` also toggles; `/stt cancel` discards, `/stt status` reports state, and `/stt setup` checks dependencies without starting a recording.
+
+Recordings are held in memory, capped at 120 seconds, and sent after stopping. At the limit they are sent automatically. The extension deletes no persistent audio files because it creates none. On macOS the default input is `:0`; list devices with `ffmpeg -f avfoundation -list_devices true -i ""`, then set `PI_STT_AUDIO_DEVICE=:1` (or the desired index) before starting Pi. Linux defaults to PulseAudio `default`, and Windows to DirectShow `audio=Microphone`; the same variable overrides the input. Cmd+R requires a terminal that forwards the Super/Command modifier (typically via the Kitty keyboard protocol); the terminal may reserve it for its own shortcut. Alt/Option+M and `/stt` are alternatives. Dictation requires Pi's interactive TUI and is not realtime streaming.
+
 ## Optional existing extensions
 
 The following extensions are enabled in the manifest:
