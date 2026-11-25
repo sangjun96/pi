@@ -1,7 +1,7 @@
 {
   "name": "my-pi-package",
   "version": "0.1.0",
-  "description": "Reusable Pi package starter",
+  "description": "Custom pi agent setup",
   "type": "module",
   "files": [
     "extensions/",
@@ -25,14 +25,10 @@
       "./prompts"
     ]
   },
-  "peerDependencies": {
-    "@earendil-works/pi-coding-agent": "*",
-    "typebox": "*"
-  },
   "devDependencies": {
     "@earendil-works/pi-coding-agent": "*",
-    "@types/node": "^26.6.6",
-    "typescript": "^7.0.2",
-    "vitest": "^5.1.0"
+    "@types/node": "26.6.6",
+    "typescript": "7.0.2",
+    "vitest": "5.1.0"
   }
 }
