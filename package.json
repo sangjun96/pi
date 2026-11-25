@@ -7,28 +7,16 @@
     "extensions/",
     "prompts/",
     "skills/",
-    "scripts/",
-    "test/",
     "AGENTS.md",
     "pnpm-lock.yaml",
-    "pnpm-workspace.yaml",
-    "vitest.config.ts"
+    "pnpm-workspace.yaml"
   ],
-  "scripts": {
-    "setup": "node scripts/setup.ts",
-    "test": "vitest run"
-  },
   "keywords": [
     "pi-package"
   ],
   "pi": {
     "extensions": [
-      "./extensions/agents-md.ts",
-      "./extensions/mcp.ts",
-      "./extensions/permission-gate.ts",
-      "./extensions/openai-web-search.ts",
-      "./extensions/stt.ts",
-      "./extensions/grok-media.ts"
+      "./extensions/index.ts"
     ],
     "skills": [
       "./skills"
@@ -46,8 +34,5 @@
     "@types/node": "^26.6.6",
     "typescript": "^7.0.2",
     "vitest": "^5.1.0"
-  },
-  "dependencies": {
-    "mupdf": "^1.28.1"
   }
 }
